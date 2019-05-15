@@ -1,18 +1,24 @@
 package com.acoder.datapassbetweenfragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements DataPass {
+public class MainActivity extends AppCompatActivity {
 
     Fragemnt2 fragemnt2;
+    MainActivityVM mainActivityVM;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivityVM = ViewModelProviders.of(this).get(MainActivityVM.class);
+
+        mainActivityVM.setInitValue();
 
         fragemnt2 = new Fragemnt2();
 
@@ -33,11 +39,5 @@ public class MainActivity extends AppCompatActivity implements DataPass {
         fragmentManager.beginTransaction().replace(R.id.fragemnt2, fragment).commitAllowingStateLoss();
     }
 
-    @Override
-    public void data(String s) {
-//        Toast.makeText(this, ""+s, Toast.LENGTH_LONG).show();
 
-
-        fragemnt2.data(s);
-    }
 }

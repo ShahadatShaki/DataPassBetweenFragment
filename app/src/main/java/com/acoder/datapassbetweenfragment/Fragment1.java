@@ -1,10 +1,12 @@
 package com.acoder.datapassbetweenfragment;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,25 +22,22 @@ import com.acoder.datapassbetweenfragment.databinding.FragmentFragment1Binding;
  */
 public class Fragment1 extends Fragment {
 
-    DataPass dataPass;
-
+    private MainActivityVM viewModel;
     FragmentFragment1Binding b;
-    public Fragment1() {
-        // Required empty public constructor
-    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(MainActivityVM.class);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        b = DataBindingUtil.inflate(inflater,R.layout.fragment_fragment1, container, false);
 
-
-        b.buttonPanel.setOnClickListener(v->{
-            String s = b.editText.getText().toString();
-            dataPass.data(s);
-        });
+        b = DataBindingUtil.inflate(inflater,R.layout.fragment_fragment1,
+                container, false);
 
         b.editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -48,7 +47,9 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataPass.data(s.toString());
+//                dataPass.data(s.toString());
+
+                viewModel.setString(s.toString());
             }
 
             @Override
@@ -56,13 +57,8 @@ public class Fragment1 extends Fragment {
 
             }
         });
+
+
         return b.getRoot();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        dataPass = (DataPass) context;
     }
 }
